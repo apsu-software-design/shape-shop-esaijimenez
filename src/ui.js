@@ -1,7 +1,7 @@
 "use strict";
 //User Interface for The Shopping Cart 
 //@author James Church
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.start = void 0;
 var readlineSync = require("readline-sync"); //for easier repeated prompts
 var products_1 = require("./products");
@@ -44,42 +44,39 @@ function showMainMenu() {
     }
 }
 function addItemToCart() {
-    letUserSelectItem();
-    letUserSelectQuantity();
+    var product = new products_1.ProductModel;
+    console.log("Here you can select your shape. Pick an option:\n      1. Buy a Triangle!\n      2. Buy a Square!\n      3. Buy a Pentagon!\n      4. Go back. Don't buy anything.");
+    var productResponse = readlineSync.question('> ');
+    console.log("How many of this shape would you like to purchase?");
+    var amountResponse = readlineSync.question('> ');
+    product.addProductToCart(productResponse, amountResponse);
 }
-function letUserSelectItem() {
-    console.log("Here you can select your shape. Pick an option:\n  1. Buy a Triangle!\n  2. Buy a Square!\n  3. Buy a Pentagon!\n  4. Go back. Don't buy anything.");
-    var response = readlineSync.question('> ');
-    switch (response) { //handle each response
-        case '1':
-            shopping_cart.push(new products_1.Product("Triangle", 3.5, "It's got three sides!"));
-            break;
-        case '2':
-            shopping_cart.push(new products_1.Product("Square", 4.5, "It's got four sides!"));
-            break;
-        case '3':
-            shopping_cart.push(new products_1.Product("Pentagon", 5.5, "It's got five sides!"));
-            break;
-        default: console.log('Invalid option!');
-    }
-    console.log(''); //extra empty line for revisiting
-}
-function letUserSelectQuantity() {
-    console.log("How many of this shape would you like to purchase?\n  ");
-    var response = readlineSync.question('> ');
-    quantity_cart.push(parseInt(response));
-    console.log(''); //extra empty line for revisiting
-}
+// function letUserSelectItem() {
+//     switch(response) { //handle each response
+//       case '1': shopping_cart.push(new Product("Triangle", 3.5, "It's got three sides!")); break;
+//       case '2': shopping_cart.push(new Product("Square", 4.5, "It's got four sides!")); break;
+//       case '3': shopping_cart.push(new Product("Pentagon", 5.5, "It's got five sides!")); break;
+//       default: console.log('Invalid option!');
+//     }
+//     console.log(''); //extra empty line for revisiting
+// }
+// function letUserSelectQuantity() {
+//     console.log(`How many of this shape would you like to purchase?`);
+//     let response = readlineSync.question('> ')
+//     quantity_cart.push(parseInt(response));
+//     console.log(''); //extra empty line for revisiting
+// }
 function removeItemFromCart() {
-    console.log("Select an item to be removed from the cart.\n  ");
+    console.log("Select an item to be removed from the cart.");
     for (var i = 0; i < shopping_cart.length; i++) {
-        console.log("");
         console.log(i + ": " + shopping_cart[i].getName());
     }
-    var response = readlineSync.question('> ');
-    var toRemove = parseInt(response);
-    shopping_cart.splice(toRemove, 1);
-    quantity_cart.splice(toRemove, 1);
+    var removeResponse = readlineSync.question('> ');
+    // let toRemove = parseInt(response);
+    var product = new products_1.ProductModel;
+    product.removeProductFromCart(removeResponse);
+    // shopping_cart.splice(toRemove, 1);
+    // quantity_cart.splice(toRemove, 1);
     console.log(''); //extra empty line for revisiting
 }
 function viewItemsInCart() {
