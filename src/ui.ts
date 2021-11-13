@@ -2,11 +2,7 @@
 //@author James Church
 
 import readlineSync = require('readline-sync'); //for easier repeated prompts
-import {Product} from './products';
-
-// Hey look. It's a global variable. This is totally cool, right?
-let shopping_cart: Product[] = [];
-let quantity_cart: number[] = [];
+import {ProductModel, ProductView} from './products';
 
 /**
  * Function to run the UI
@@ -44,68 +40,43 @@ function showMainMenu() {
 }
 
 function addItemToCart() {
-    letUserSelectItem();
-    letUserSelectQuantity();
-}
-
-function letUserSelectItem() {
-    console.log(`Here you can select your shape. Pick an option:
+  
+  console.log(`Here you can select your shape. Pick an option:
   1. Buy a Triangle!
   2. Buy a Square!
   3. Buy a Pentagon!
   4. Go back. Don't buy anything.`);
-
-    let response = readlineSync.question('> ')
-
-    switch(response) { //handle each response
-      case '1': shopping_cart.push(new Product("Triangle", 3.5, "It's got three sides!")); break;
-      case '2': shopping_cart.push(new Product("Square", 4.5, "It's got four sides!")); break;
-      case '3': shopping_cart.push(new Product("Pentagon", 5.5, "It's got five sides!")); break;
-      default: console.log('Invalid option!');
-    }
-    console.log(''); //extra empty line for revisiting
-}
-
-function letUserSelectQuantity() {
-    console.log(`How many of this shape would you like to purchase?
-  `);
-
-    let response = readlineSync.question('> ')
-    quantity_cart.push(parseInt(response));
-    console.log(''); //extra empty line for revisiting
+  let productResponse = readlineSync.question('> ');
+  
+  console.log(`How many of this shape would you like to purchase?`);
+  
+  let amountResponse = readlineSync.question('> ');
+  
+  let product = new ProductModel;
+  product.addProductToCart(productResponse,amountResponse);
 }
 
 function removeItemFromCart() {
-    console.log(`Select an item to be removed from the cart.
-  `);
+    let cartRemove = new ProductView;
 
-    for (let i = 0; i < shopping_cart.length; i++) {
-        console.log(i+": "+shopping_cart[i].getName());
-    }
+    console.log(`Select an item to be removed from the cart.`);
 
-    let response = readlineSync.question('> ')
-    let toRemove = parseInt(response);
+    cartRemove.viewItemsToRemove();
 
-    shopping_cart.splice(toRemove, 1);
-    quantity_cart.splice(toRemove, 1);
+    let removeResponse = readlineSync.question('> ')
+  
+    let product = new ProductModel;
+    product.removeProductFromCart(removeResponse);
 
     console.log(''); //extra empty line for revisiting
 }
 
 function viewItemsInCart() {
-    for (let i = 0; i < shopping_cart.length; i++) {
-        console.log("");
-        console.log("       Name: "+shopping_cart[i].getName());
-        console.log("      Price: "+shopping_cart[i].getPrice());
-        console.log("Description: "+shopping_cart[i].getDescription());
-        console.log("   Quantity: "+quantity_cart[i]);
-    }
+    let cartView = new ProductView;
+    cartView.viewItemsInCart();
 }
 
 function viewCartTotal() {
-    let total: number = 0;
-    for (let i = 0; i < shopping_cart.length; i++) {
-        total += shopping_cart[i].getPrice() * quantity_cart[i];
-    }
-    console.log("Shopping Cart Total: "+total);
+    let cartTotal = new ProductView;
+    cartTotal.viewCartTotalPrice();
 }
